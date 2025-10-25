@@ -1,10 +1,248 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Hyunju Kim Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hyunju Kim — Portfolio</title>
+  <meta name="description" content="Architecture & Urban Data Visualization — Portfolio of Hyunju Kim" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Single‑file build: No external fonts to keep it simple/fast. Uses system UI stack. -->
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --panel: #101217;
+      --text: #f5f7fb;
+      --muted: #a9b0bd;
+      --brand: #6ee7f2; /* ice‑blue accent */
+      --brand-2: #a7f3d0; /* soft mint */
+      --border: #1b2029;
+      --chip: #1a222f;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f8fafc; --panel:#ffffff; --text:#0b1220; --muted:#556070; --brand:#0891b2; --brand-2:#0ea5a0; --border:#e6eaef; --chip:#f2f5f8; --shadow:0 10px 24px rgba(2,6,23,.08);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(110,231,242,.15), transparent 60%),
+                  radial-gradient(800px 400px at 90% 10%, rgba(167,243,208,.15), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:var(--brand);text-decoration:none}
+    a:hover{opacity:.9}
+    .container{max-width:1100px;margin:0 auto;padding:32px}
+    header{
+      position:sticky;top:0;z-index:10;
+      backdrop-filter: blur(8px);
+      background: color-mix(in srgb, var(--bg), transparent 60%);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:800}
+    .logo-dot{width:12px;height:12px;border-radius:50%;background:
+      radial-gradient(circle at 30% 30%, var(--brand) 0 45%, transparent 46%),
+      radial-gradient(circle at 70% 70%, var(--brand-2) 0 45%, transparent 46%),
+      linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow:0 0 24px rgba(110,231,242,.6);
+    }
+    .nav a{color:var(--muted)}
+    .nav a:hover{color:var(--text)}
+    .nav-links{display:flex;gap:18px;flex-wrap:wrap}
+
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding-block:48px}
+    @media (max-width:880px){.hero{grid-template-columns:1fr}}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow)}
+    .hero-card{padding:28px}
+    .headline{font-size:40px;line-height:1.1;margin:0 0 10px;font-weight:900;letter-spacing:-.02em}
+    .sub{color:var(--muted);margin:0 0 18px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+    .chip{padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);font-size:12px;color:var(--muted)}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-weight:700}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#071018;border:none}
+    .btn svg{width:18px;height:18px}
+
+    .thumb{aspect-ratio:4/3;border-radius:18px;overflow:hidden;border:1px solid var(--border)}
+    .thumb > div{width:100%;height:100%;background:
+      radial-gradient(500px 200px at 20% 20%, rgba(110,231,242,.35), transparent 50%),
+      radial-gradient(400px 200px at 80% 80%, rgba(167,243,208,.35), transparent 50%),
+      linear-gradient(135deg, #0b1220, #172036);
+    }
+
+    .section{padding-block:26px}
+    .section h2{font-size:22px;margin:0 0 14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:620px){.grid{grid-template-columns:1fr}}
+
+    .project{display:flex;flex-direction:column;gap:12px;padding:14px}
+    .project h3{margin:2px 0 0;font-size:18px}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px dashed var(--border);background:color-mix(in srgb, var(--chip), transparent 10%)}
+    .project .actions{margin-top:auto;display:flex;gap:10px}
+
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:880px){.about{grid-template-columns:1fr}}
+    .about p{margin:0;color:var(--muted)}
+
+    footer{padding:36px 0;color:var(--muted);text-align:center}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;background:var(--chip);border:1px solid var(--border);border-bottom-width:2px;padding:2px 6px;border-radius:8px;font-size:12px}
+
+    /* Small helper utility for Korean subtitles */
+    .kr{opacity:.85}
+  </style>
 </head>
 <body>
-  <h1>Hello! I'm Hyunju</h1>
-  <p>Welcome to my architecture and data visualization portfolio.</p>
+  <header>
+    <div class="container nav">
+      <div class="logo"><span class="logo-dot"></span> Hyunju Kim</div>
+      <nav class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="card hero-card">
+        <h1 class="headline">Architecture & Urban Data Visualization</h1>
+        <p class="sub kr">건축 · 도시 · 데이터 기반 환경 분석 포트폴리오</p>
+        <div class="chips">
+          <span class="chip">Churchill, CA — UV/IR Ecologies</span>
+          <span class="chip">Floating Wetlands</span>
+          <span class="chip">D3.js · QGIS · Rhino/Grasshopper</span>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="#projects" title="See work">
+            <!-- eye icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+            View Projects
+          </a>
+          <a class="btn" href="#about" title="About">About</a>
+          <a class="btn" href="#contact" title="Contact">Contact</a>
+          <a class="btn" href="resume.pdf" title="Resume (add your PDF)">Resume.pdf</a>
+        </div>
+      </div>
+      <div class="thumb card" aria-hidden="true"><div></div></div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div class="grid">
+        <!-- Project Card 1 -->
+        <article class="card project">
+          <div class="thumb"><div></div></div>
+          <h3>Melting Archive — Invisible Light Outpost System</h3>
+          <div class="meta"><span>Studio · 2025</span><span>Churchill, Canada</span></div>
+          <p class="sub">Multi‑scalar outposts that record and activate UV/IR ecological signals across tundra terrains; integrates QGIS layers, DEMs, and Rhino/Grasshopper terrain modeling.</p>
+          <div class="tags">
+            <span class="tag">UV/IR</span>
+            <span class="tag">Permafrost</span>
+            <span class="tag">Rhino · GH</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#" title="Add your project link">Case Study</a>
+            <a class="btn" href="#" title="PDF board or booklet">PDF</a>
+          </div>
+        </article>
+
+        <!-- Project Card 2 -->
+        <article class="card project">
+          <div class="thumb"><div></div></div>
+          <h3>Microhabitat Island — Floating Wetlands</h3>
+          <div class="meta"><span>Design‑Build · 2025</span><span>Bushwick Inlet Park</span></div>
+          <p class="sub">Modular floating structure for water purification and habitat creation using recycled aluminum meshes; plant–algae–avian layers stitched through tidal ecologies.</p>
+          <div class="tags">
+            <span class="tag">Habitat</span>
+            <span class="tag">Recycled Mesh</span>
+            <span class="tag">Estuary</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#" title="Add your project link">Project</a>
+            <a class="btn" href="#" title="Gallery">Gallery</a>
+          </div>
+        </article>
+
+        <!-- Project Card 3 -->
+        <article class="card project">
+          <div class="thumb"><div></div></div>
+          <h3>Data Centers × Ozone — Energy, Water, CO₂</h3>
+          <div class="meta"><span>Data Viz · 2025</span><span>NYC + Global Datasets</span></div>
+          <p class="sub">Interactive visualizations connecting data‑center energy & water use to CO₂ emissions and atmospheric ozone trends using D3.js and NASA/NOAA datasets.</p>
+          <div class="tags">
+            <span class="tag">D3.js</span>
+            <span class="tag">NASA/NOAA</span>
+            <span class="tag">Jekyll</span>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#" title="Live demo link">Live Demo</a>
+            <a class="btn" href="#" title="Methods">Methods</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="section about">
+      <div class="card" style="padding:18px">
+        <h2>About</h2>
+        <p>Hyunju Kim is a graduate architecture student at Columbia GSAPP exploring trans‑scalar environmental systems — from UV/IR ecological signals and permafrost micro‑climates to urban data infrastructures. Her work combines <span class="kbd">QGIS</span>, <span class="kbd">Rhino/Grasshopper</span>, and <span class="kbd">D3.js</span> to bridge physical sites and data‑driven narratives.</p>
+        <p class="kr" style="margin-top:10px">콜롬비아 GSAPP 석사 과정에서 생태·데이터 기반 설계를 연구합니다. QGIS, Rhino/Grasshopper, D3.js를 활용해 현장 데이터와 건축·도시 스케일을 연결합니다.</p>
+      </div>
+      <div class="card" style="padding:18px">
+        <h2>Skills</h2>
+        <div class="chips">
+          <span class="chip">QGIS / GeoTIFF / OSM</span>
+          <span class="chip">Rhino / Grasshopper / V‑Ray</span>
+          <span class="chip">Blender‑GIS</span>
+          <span class="chip">D3.js / HTML / CSS</span>
+          <span class="chip">InDesign / Illustrator</span>
+        </div>
+        <p style="margin:0;color:var(--muted)">Available for collaborations, exhibitions, and data‑driven environmental visualization.</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="card" style="padding:18px">
+        <p style="margin:0 0 10px">Email: <a href="mailto:your.email@example.com">your.email@example.com</a> · GitHub: <a href="https://github.com/yourusername" target="_blank" rel="noopener">@yourusername</a> · Instagram/LinkedIn as needed</p>
+        <p style="margin:0;color:var(--muted)">Tip: Place a <span class="kbd">resume.pdf</span> in the root of your repository to activate the Resume button above.</p>
+      </div>
+    </section>
+
+    <!-- How to publish (quick help, you can delete this block later) -->
+    <section class="section">
+      <h2>Quick Publish (GitHub Pages)</h2>
+      <div class="card" style="padding:18px">
+        <ol style="margin:0 0 8px 18px">
+          <li>Create a repo named <span class="kbd">yourusername.github.io</span>.</li>
+          <li>Add this <span class="kbd">index.html</span> file to the root.</li>
+          <li>Settings → Pages → Source: <span class="kbd">Deploy from a branch</span> → Branch: <span class="kbd">main</span>.</li>
+          <li>Wait a few minutes → Visit <span class="kbd">https://yourusername.github.io</span>.</li>
+        </ol>
+        <p style="margin:0;color:var(--muted)">Optional: Add <span class="kbd">_config.yml</span> with <span class="kbd">theme: jekyll-theme-minimal</span> for simple theming.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Hyunju Kim — Built with GitHub Pages</div>
+  </footer>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
 </body>
 </html>
